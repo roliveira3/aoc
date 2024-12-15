@@ -42,7 +42,7 @@ def steplr(p, dir):
             return False
         
 
-def checkul(p, dir):
+def checkUD(p, dir):
     
     newelem = arr[p[0] + dir[0]][p[1] + dir[1]]
     if newelem == "#":
@@ -50,11 +50,11 @@ def checkul(p, dir):
     elif newelem == ".":
         return True
     elif newelem == "]":
-        return checkul((p[0] + dir[0], p[1] + dir[1]), dir) and checkul((p[0] + dir[0], p[1] + dir[1]-1), dir)
+        return checkUD((p[0] + dir[0], p[1] + dir[1]), dir) and checkUD((p[0] + dir[0], p[1] + dir[1]-1), dir)
     elif newelem == "[":
-        return checkul((p[0] + dir[0], p[1] + dir[1]), dir) and checkul((p[0] + dir[0], p[1] + dir[1]+1), dir)
+        return checkUD((p[0] + dir[0], p[1] + dir[1]), dir) and checkUD((p[0] + dir[0], p[1] + dir[1]+1), dir)
     
-def moveul(c, p, dir):
+def moveUD(c, p, dir):
     # differentiate for part 2
     elem = arr[p[0]][p[1]]
     if elem == ".":
@@ -64,21 +64,21 @@ def moveul(c, p, dir):
         raise Exception("Encountered a wall while moving up/down")
     elif elem == "[":
         arr[p[0]][p[1]] = c
-        moveul("[", (p[0] + dir[0], p[1] + dir[1]), dir)
-        moveul("]", (p[0] + dir[0], p[1] + dir[1]+1), dir)
+        moveUD("[", (p[0] + dir[0], p[1] + dir[1]), dir)
+        moveUD("]", (p[0] + dir[0], p[1] + dir[1]+1), dir)
         arr[p[0]][p[1]+1] = "."
     elif elem == "]":
         arr[p[0]][p[1]] = c
-        moveul("]", (p[0] + dir[0], p[1] + dir[1]), dir)
-        moveul("[", (p[0] + dir[0], p[1] + dir[1]-1), dir)
+        moveUD("]", (p[0] + dir[0], p[1] + dir[1]), dir)
+        moveUD("[", (p[0] + dir[0], p[1] + dir[1]-1), dir)
         arr[p[0]][p[1]-1] = "."
 
 
 
-def steplu(p, dir):
-    if(checkul(p,dir)):
+def stepUD(p, dir):
+    if(checkUD(p,dir)):
         arr[p[0]][p[1]] = "."
-        moveul("@",(p[0]+dir[0], p[1]+dir[1]),dir)
+        moveUD("@",(p[0]+dir[0], p[1]+dir[1]),dir)
         return True
     else:
         return False
@@ -100,7 +100,7 @@ for m in moves:
         if(steplr(startp, dir)):
             startp = (startp[0] + dir[0], startp[1] + dir[1])
     else: # dir == (1,0) or dir == (-1,0):
-        if(steplu(startp, dir)):
+        if(stepUD(startp, dir)):
             startp = (startp[0] + dir[0], startp[1] + dir[1])
 
     # for line in arr:
